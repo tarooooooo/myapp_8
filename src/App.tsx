@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { ListItem } from "./components/ListItem";
+import type { User } from "./types/user";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const App = () => {
+  const [users, setUsers] = useState<User[]>([]);
 
-export default App;
+  useEffect(() => {
+    axios.get<User[]>("https://example.com/users").then((res) => {
+      setUsers(res.data);
+    })
+  }, []);
+   return (
+     <div>
+       <ListItem id={1} name={"user_name"} age={25} hobbies={["sports", "Youtube", "Instagram"]} />
+       <ListItem id={1} name={"user_name2"} age={25} personal_color={"pink"} />
+     </div>
+   );
+};
